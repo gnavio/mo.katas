@@ -1,6 +1,6 @@
 import unittest
 
-from rover import Rover
+from rover import Rover, Obstacle
 
 """
 Mars rover moves through
@@ -128,6 +128,9 @@ class MarsRoverTestCase(unittest.TestCase):
         self.assert_rover_position(expected_position, rover)
 
 
+    # Obstacles
+
+
     # Asserts
 
     def assert_rover_position(self, expected_position, rover):
@@ -136,3 +139,4 @@ class MarsRoverTestCase(unittest.TestCase):
 
     def assert_rover_orientation(self, expected_orientation, rover):
         self.assertEqual(expected_orientation, rover.orientation)
+        
