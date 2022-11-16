@@ -74,7 +74,7 @@ class Rover(object):
                         return False
                     
     def print_position(self):
-        print('Rover position: x = ' + str(self.x) + ', y = ' + str(self.y) + ', orientation = ' + self.orientation + '\n')
+        print('Rover position: x = ' + str(self.x) + ', y = ' + str(self.y) + ', orientation = ' + self.orientation)
 
     def move(self, movs):
         for m in movs:
@@ -94,7 +94,3 @@ class Rover(object):
                 case 'l':
                     self.turn_left()
         self.print_position()
-
-o1 = Obstacle(2, 0)
-robot = Rover(0, 0, 'N')
-robot.move(['l','f'])

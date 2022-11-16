@@ -130,6 +130,38 @@ class MarsRoverTestCase(unittest.TestCase):
 
     # Obstacles
 
+    def test_rover_detect_obstacle_N(self):
+        obs = Obstacle(1, 2)
+        rover = Rover(1, 1, 'N', [obs])
+        movements = ['f']
+        expected_position = (1, 1)
+        rover.move(movements)
+        self.assert_rover_position(expected_position, rover)
+
+    def test_rover_detect_obstacle_E(self):
+        obs = Obstacle(0, 1)
+        rover = Rover(1, 1, 'E', [obs])
+        movements = ['b']
+        expected_position = (1, 1)
+        rover.move(movements)
+        self.assert_rover_position(expected_position, rover)
+
+    def test_rover_detect_obstacle_S(self):
+        obs = Obstacle(1, 0)
+        rover = Rover(1, 1, 'S', [obs])
+        movements = ['f']
+        expected_position = (1, 1)
+        rover.move(movements)
+        self.assert_rover_position(expected_position, rover)
+
+    def test_rover_detect_obstacle_W(self):
+        obs = Obstacle(2, 1)
+        rover = Rover(1, 1, 'W', [obs])
+        movements = ['b']
+        expected_position = (1, 1)
+        rover.move(movements)
+        self.assert_rover_position(expected_position, rover)    
+
 
     # Asserts
 
@@ -139,4 +171,3 @@ class MarsRoverTestCase(unittest.TestCase):
 
     def assert_rover_orientation(self, expected_orientation, rover):
         self.assertEqual(expected_orientation, rover.orientation)
-        
