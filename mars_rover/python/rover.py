@@ -4,7 +4,14 @@ class Obstacle():
         self.x = obs_x
         self.y = obs_y
 
+# PLANET GRID #
+max_x = 3
+max_y = 3
+
 class Rover(object):
+
+    global max_x 
+    global max_y 
 
     def __init__(self, start_x = 0, start_y = 0, orientation = 'N', obstacles = []):
         self.x = start_x
@@ -21,57 +28,53 @@ class Rover(object):
         self.orientation = c_points[c_points.index(self.orientation) - 1]   
     
     def forward(self):
-        if self.orientation == 'N':
-            self.y = (self.y + 1) % 3
-        elif self.orientation == 'S':
-            self.y = (self.y - 1) % 3
-        elif self.orientation == 'E':
-            self.x = (self.x + 1) % 3
-        elif self.orientation == 'W':
-            self.x = (self.x - 1) % 3
+        match self.orientation:
+            case 'N':
+                self.y = (self.y + 1) % max_y
+            case 'S':
+                self.y = (self.y - 1) % max_y
+            case 'E':
+                self.x = (self.x + 1) % max_x
+            case 'W':
+                self.x = (self.x - 1) % max_x
 
     def backward(self):
-        if self.orientation == 'N':
-            self.y = (self.y - 1) % 3
-        elif self.orientation == 'S':
-            self.y = (self.y + 1) % 3
-        elif self.orientation == 'E':
-            self.x = (self.x - 1) % 3
-        elif self.orientation == 'W':
-            self.x = (self.x + 1) % 3
+        match self.orientation:
+            case 'N':
+                self.y = (self.y - 1) % max_y
+            case 'S':
+                self.y = (self.y + 1) % max_y
+            case 'E':
+                self.x = (self.x - 1) % max_x
+            case 'W':
+                self.x = (self.x + 1) % max_x
     
     def detect_obstacle(self, next_move):
         obstacles = self.obstacles
+        detected = False
         for obs in obstacles:
             match self.orientation:
                 case 'N':
-                    if (next_move == 'f' and (obs.x == self.x and obs.y == (self.y + 1) % 3) or 
-                        next_move == 'b' and (obs.x == self.x and obs.y == (self.y - 1) % 3)):
+                    if (next_move == 'f' and (obs.x == self.x and obs.y == (self.y + 1) % max_y) or 
+                        next_move == 'b' and (obs.x == self.x and obs.y == (self.y - 1) % max_y)):
                         print('Obstacle detected at: x = ' + str(obs.x) + ', y = ' + str(obs.y))
-                        return True
-                    else:
-                        return False
+                        detected = True
                 case 'E':
-                    if (next_move == 'f' and (obs.x == (self.x + 1) % 3 and obs.y == self.y) or 
-                        next_move == 'b' and (obs.x == (self.x - 1) % 3 and obs.y == self.y)):
+                    if (next_move == 'f' and (obs.x == (self.x + 1) % max_x and obs.y == self.y) or 
+                        next_move == 'b' and (obs.x == (self.x - 1) % max_x and obs.y == self.y)):
                         print('Obstacle detected at: x = ' + str(obs.x) + ', y = ' + str(obs.y))
-                        return True
-                    else:
-                        return False
+                        detected = True
                 case 'S':
-                    if (next_move == 'f' and (obs.x == self.x and obs.y == (self.y - 1) % 3) or 
-                        next_move == 'b' and (obs.x == self.x and obs.y == (self.y + 1) % 3)):
+                    if (next_move == 'f' and (obs.x == self.x and obs.y == (self.y - 1) % max_y) or 
+                        next_move == 'b' and (obs.x == self.x and obs.y == (self.y + 1) % max_y)):
                         print('Obstacle detected at: x = ' + str(obs.x) + ', y = ' + str(obs.y))
-                        return True
-                    else:
-                        return False
+                        detected = True
                 case 'W':
-                    if (next_move == 'f' and (obs.x == (self.x - 1) % 3 and obs.y == self.y) or 
-                        next_move == 'b' and (obs.x == (self.x + 1) % 3 and obs.y == self.y)):
+                    if (next_move == 'f' and (obs.x == (self.x - 1) % max_x and obs.y == self.y) or 
+                        next_move == 'b' and (obs.x == (self.x + 1) % max_x and obs.y == self.y)):
                         print('Obstacle detected at: x = ' + str(obs.x) + ', y = ' + str(obs.y))
-                        return True
-                    else:
-                        return False
+                        detected = True
+        return detected
                     
     def print_position(self):
         print('Rover position: x = ' + str(self.x) + ', y = ' + str(self.y) + ', orientation = ' + self.orientation)

@@ -39,29 +39,38 @@ Para esto he creado un array con las diferentes orientaciones (puntos cardinales
 ### ↕️ ​**forward / backward**
 Este método comprueba la orientación del Rover y le suma uno a su variable x o y para que avance una casilla hacia delante.
 
-**Para que el Rover nunca se salga del mapa 3x3 se utiliza el operador módulo en la variable que se está modificando**. Ejemplo: (self.y + 1) % 3
+**Para que el Rover nunca se salga del mapa 3x3 se utiliza el operador módulo en la variable que se está modificando**. Ejemplo: (self.y + 1) % max_y
 ```
 def forward(self):
-    if self.orientation == 'N':
-        self.y = (self.y + 1) % 3
-    elif self.orientation == 'S':
-        self.y = (self.y - 1) % 3
-    elif self.orientation == 'E':
-        self.x = (self.x + 1) % 3
-    elif self.orientation == 'W':
-        self.x = (self.x - 1) % 3
+        match self.orientation:
+            case 'N':
+                self.y = (self.y + 1) % max_y
+            case 'S':
+                self.y = (self.y - 1) % max_y
+            case 'E':
+                self.x = (self.x + 1) % max_x
+            case 'W':
+                self.x = (self.x - 1) % max_x
 ```
 El método backdward es similar al forward, pero realiza el movimiento inverso en cada una de las orientaciones.
 ```
 def backward(self):
-    if self.orientation == 'N':
-        self.y = (self.y - 1) % 3
-    elif self.orientation == 'S':
-        self.y = (self.y + 1) % 3
-    elif self.orientation == 'E':
-        self.x = (self.x - 1) % 3
-    elif self.orientation == 'W':
-        self.x = (self.x + 1) % 3
+        match self.orientation:
+            case 'N':
+                self.y = (self.y - 1) % max_y
+            case 'S':
+                self.y = (self.y + 1) % max_y
+            case 'E':
+                self.x = (self.x - 1) % max_x
+            case 'W':
+                self.x = (self.x + 1) % max_x
+```
+
+Las variables max_x y max_y representan los valores máximos que tiene el *grid* del planeta. Por defecto es 3x3.
+```
+# PLANET GRID #
+max_x = 3
+max_y = 3
 ```
 ### 🚧 **detect_obstacle**
 He creado una clase simple para los obstáculos. Cada objeto de la clase contiene dos variables (x e y) que indican la posición del obstáculo en el mapa.
@@ -83,9 +92,7 @@ case 'N':
     if (next_move == 'f' and (obs.x == self.x and obs.y == (self.y + 1) % 3) or 
         next_move == 'b' and (obs.x == self.x and obs.y == (self.y - 1) % 3)):
             print('Obstacle detected at: x = ' + str(obs.x) + ', y = ' + str(obs.y))
-            return True
-    else:
-        return False
+            detected = True
 ```
 ## 🧪 Tests
 En los tests se comprueba que cada uno de los casos posibles para estos métodos funcione correctamente. Estos son los apartados del test:
